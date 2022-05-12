@@ -2,26 +2,24 @@ import * as THREE from 'three'
 
 import Experience from './Experience.js'
 
-export default class ElgatoLight
-{
-    constructor()
-    {
-        this.experience = new Experience()
-        this.resources = this.experience.resources
-        this.scene = this.experience.scene
+export default class ElgatoLight {
+	constructor() {
+		this.experience = new Experience()
+		this.resources = this.experience.resources
+		this.scene = this.experience.scene
 
-        this.setModel()
-    }
+		this.setModel()
+	}
 
-    setModel()
-    {
-        this.model = {}
+	setModel() {
+		this.model = {}
 
-        this.model.mesh = this.resources.items.elgatoLightModel.scene.children[0]
-        this.scene.add(this.model.mesh)
+		this.model.mesh = this.resources.items.elgatoLightModel.scene.children[0]
+		this.scene.add(this.model.mesh)
 
-        this.model.mesh.material = new THREE.MeshBasicMaterial({
-            color: 0xffffff
-        })
-    }
+		this.model.mesh.material = new THREE.MeshBasicMaterial({
+			// color: 0x5a5a5a
+			color: 0xffffff
+		})
+	}
 }

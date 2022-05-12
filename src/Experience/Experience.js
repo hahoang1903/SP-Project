@@ -13,174 +13,119 @@ import Navigation from './Navigation.js'
 
 import assets from './assets.js'
 
-export default class Experience
-{
-    static instance
+export default class Experience {
+	static instance
 
-    constructor(_options = {})
-    {
-        if(Experience.instance)
-        {
-            return Experience.instance
-        }
-        Experience.instance = this
+	constructor(_options = {}) {
+		if (Experience.instance) {
+			return Experience.instance
+		}
+		Experience.instance = this
 
-        // Options
-        this.targetElement = _options.targetElement
+		// Options
+		this.targetElement = _options.targetElement
 
-        if(!this.targetElement)
-        {
-            console.warn('Missing \'targetElement\' property')
-            return
-        }
+		if (!this.targetElement) {
+			console.warn("Missing 'targetElement' property")
+			return
+		}
 
-        this.time = new Time()
-        this.sizes = new Sizes()
-        this.setConfig()
-        this.setStats()
-        this.setDebug()
-        this.setScene()
-        this.setCamera()
-        this.setRenderer()
-        this.setResources()
-        this.setWorld()
-        this.setNavigation()
-        
-        this.sizes.on('resize', () =>
-        {
-            this.resize()
-        })
+		this.time = new Time()
+		this.sizes = new Sizes()
+		this.setConfig()
+		this.setStats()
+		this.setScene()
+		this.setCamera()
+		this.setRenderer()
+		this.setResources()
+		this.setWorld()
+		this.setNavigation()
 
-        this.update()
-    }
+		this.sizes.on('resize', () => {
+			this.resize()
+		})
 
-    // static getInstance(_options = {})
-    // {
-    //     console.log(Experience.instance)
-    //     if(Experience.instance)
-    //     {
-    //         return Experience.instance
-    //     }
-        
-    //     console.log('create')
-    //     Experience.instance = new Experience(_options)
-        
-    //     return Experience.instance
-    // }
+		this.update()
+	}
 
-    setConfig()
-    {
-        this.config = {}
-    
-        // Pixel ratio
-        this.config.pixelRatio = Math.min(Math.max(window.devicePixelRatio, 1), 2)
+	setConfig() {
+		this.config = {}
 
-        // Width and height
-        const boundings = this.targetElement.getBoundingClientRect()
-        this.config.width = boundings.width
-        this.config.height = boundings.height || window.innerHeight
-        this.config.smallestSide = Math.min(this.config.width, this.config.height)
-        this.config.largestSide = Math.max(this.config.width, this.config.height)
-        
-        // Debug
-        // this.config.debug = window.location.hash === '#debug'
-        this.config.debug = this.config.width > 420
-    }
+		// Pixel ratio
+		this.config.pixelRatio = Math.min(Math.max(window.devicePixelRatio, 1), 2)
 
-    setStats()
-    {
-        if(this.config.debug)
-        {
-            this.stats = new Stats(true)
-        }
-    }
+		// Width and height
+		const boundings = this.targetElement.getBoundingClientRect()
+		this.config.width = boundings.width
+		this.config.height = boundings.height || window.innerHeight
+		this.config.smallestSide = Math.min(this.config.width, this.config.height)
+		this.config.largestSide = Math.max(this.config.width, this.config.height)
+	}
 
-    setDebug()
-    {
-        if(this.config.debug)
-        {
-            this.debug = new Pane()
-            this.debug.containerElem_.style.width = '320px'
-        }
-    }
-    
-    setScene()
-    {
-        this.scene = new THREE.Scene()
-    }
+	setStats() {
+		if (this.config.debug) {
+			this.stats = new Stats(true)
+		}
+	}
 
-    setCamera()
-    {
-        this.camera = new Camera()
-    }
+	setScene() {
+		this.scene = new THREE.Scene()
+	}
 
-    setRenderer()
-    {
-        this.renderer = new Renderer({ rendererInstance: this.rendererInstance })
+	setCamera() {
+		this.camera = new Camera()
+	}
 
-        this.targetElement.appendChild(this.renderer.instance.domElement)
-    }
+	setRenderer() {
+		this.renderer = new Renderer({ rendererInstance: this.rendererInstance })
 
-    setResources()
-    {
-        this.resources = new Resources(assets)
-    }
+		this.targetElement.appendChild(this.renderer.instance.domElement)
+	}
 
-    setWorld()
-    {
-        this.world = new World()
-    }
+	setResources() {
+		this.resources = new Resources(assets)
+	}
 
-    setNavigation()
-    {
-        this.navigation = new Navigation()
-    }
+	setWorld() {
+		this.world = new World()
+	}
 
-    update()
-    {
-        if(this.stats)
-            this.stats.update()
-        
-        this.camera.update()
-        
-        if(this.renderer)
-            this.renderer.update()
+	setNavigation() {
+		this.navigation = new Navigation()
+	}
 
-        if(this.world)
-            this.world.update()
+	update() {
+		if (this.stats) this.stats.update()
 
-        if(this.navigation)
-            this.navigation.update()
+		this.camera.update()
 
-        window.requestAnimationFrame(() =>
-        {
-            this.update()
-        })
-    }
+		if (this.renderer) this.renderer.update()
 
-    resize()
-    {
-        // Config
-        const boundings = this.targetElement.getBoundingClientRect()
-        this.config.width = boundings.width
-        this.config.height = boundings.height
-        this.config.smallestSide = Math.min(this.config.width, this.config.height)
-        this.config.largestSide = Math.max(this.config.width, this.config.height)
+		if (this.world) this.world.update()
 
-        this.config.pixelRatio = Math.min(Math.max(window.devicePixelRatio, 1), 2)
+		if (this.navigation) this.navigation.update()
 
-        if(this.camera)
-            this.camera.resize()
+		window.requestAnimationFrame(() => {
+			this.update()
+		})
+	}
 
-        if(this.renderer)
-            this.renderer.resize()
+	resize() {
+		// Config
+		const boundings = this.targetElement.getBoundingClientRect()
+		this.config.width = boundings.width
+		this.config.height = boundings.height
+		this.config.smallestSide = Math.min(this.config.width, this.config.height)
+		this.config.largestSide = Math.max(this.config.width, this.config.height)
 
-        if(this.world)
-            this.world.resize()
-    }
+		this.config.pixelRatio = Math.min(Math.max(window.devicePixelRatio, 1), 2)
 
-    destroy()
-    {
-        
-    }
+		if (this.camera) this.camera.resize()
+
+		if (this.renderer) this.renderer.resize()
+
+		if (this.world) this.world.resize()
+	}
+
+	destroy() {}
 }

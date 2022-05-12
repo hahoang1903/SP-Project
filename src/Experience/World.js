@@ -9,101 +9,79 @@ import ElgatoLight from './ElgatoLight.js'
 import BouncingLogo from './BouncingLogo.js'
 import Screen from './Screen.js'
 
-export default class World
-{
-    constructor(_options)
-    {
-        this.experience = new Experience()
-        this.config = this.experience.config
-        this.scene = this.experience.scene
-        this.resources = this.experience.resources
-        
-        this.resources.on('groupEnd', (_group) =>
-        {
-            if(_group.name === 'base')
-            {
-                this.setBaked()
-                this.setGoogleLeds()
-                this.setLoupedeckButtons()
-                this.setCoffeeSteam()
-                this.setTopChair()
-                this.setElgatoLight()
-                this.setBouncingLogo()
-                this.setScreens()
-            }
-        })
-    }
+export default class World {
+	constructor(_options) {
+		this.experience = new Experience()
+		this.config = this.experience.config
+		this.scene = this.experience.scene
+		this.resources = this.experience.resources
 
-    setBaked()
-    {
-        this.baked = new Baked()
-    }
+		this.resources.on('groupEnd', _group => {
+			if (_group.name === 'base') {
+				this.setBaked()
+				this.setGoogleLeds()
+				this.setLoupedeckButtons()
+				this.setCoffeeSteam()
+				this.setTopChair()
+				this.setElgatoLight()
+				this.setBouncingLogo()
+				this.setScreens()
+			}
+		})
+	}
 
-    setGoogleLeds()
-    {
-        this.googleLeds = new GoogleLeds()
-    }
+	setBaked() {
+		this.baked = new Baked()
+	}
 
-    setLoupedeckButtons()
-    {
-        this.loupedeckButtons = new LoupedeckButtons()
-    }
+	setGoogleLeds() {
+		this.googleLeds = new GoogleLeds()
+	}
 
-    setCoffeeSteam()
-    {
-        this.coffeeSteam = new CoffeeSteam()
-    }
+	setLoupedeckButtons() {
+		this.loupedeckButtons = new LoupedeckButtons()
+	}
 
-    setTopChair()
-    {
-        this.topChair = new TopChair()
-    }
+	setCoffeeSteam() {
+		this.coffeeSteam = new CoffeeSteam()
+	}
 
-    setElgatoLight()
-    {
-        this.elgatoLight = new ElgatoLight()
-    }
+	setTopChair() {
+		this.topChair = new TopChair()
+	}
 
-    setBouncingLogo()
-    {
-        this.bouncingLogo = new BouncingLogo()
-    }
+	setElgatoLight() {
+		this.elgatoLight = new ElgatoLight()
+	}
 
-    setScreens()
-    {
-        this.pcScreen = new Screen(
-            this.resources.items.pcScreenModel.scene.children[0],
-            '/assets/videoPortfolio.mp4'
-        )
-        this.macScreen = new Screen(
-            this.resources.items.macScreenModel.scene.children[0],
-            '/assets/videoStream.mp4'
-        )
-    }
+	setBouncingLogo() {
+		this.bouncingLogo = new BouncingLogo()
+	}
 
-    resize()
-    {
-    }
+	setScreens() {
+		this.pcScreen = new Screen(
+			this.resources.items.pcScreenModel.scene.children[0],
+			'/assets/videoPortfolio.mp4'
+		)
+		this.macScreen = new Screen(
+			this.resources.items.macScreenModel.scene.children[0],
+			'/assets/videoStream.mp4'
+		)
+	}
 
-    update()
-    {
-        if(this.googleLeds)
-            this.googleLeds.update()
+	resize() {}
 
-        if(this.loupedeckButtons)
-            this.loupedeckButtons.update()
+	update() {
+		if (this.googleLeds) this.googleLeds.update()
 
-        if(this.coffeeSteam)
-            this.coffeeSteam.update()
+		if (this.loupedeckButtons) this.loupedeckButtons.update()
 
-        if(this.topChair)
-            this.topChair.update()
+		if (this.coffeeSteam) this.coffeeSteam.update()
 
-        if(this.bouncingLogo)
-            this.bouncingLogo.update()
-    }
+		if (this.bouncingLogo) this.bouncingLogo.update()
 
-    destroy()
-    {
-    }
+		if (this.topChair) this.topChair.update()
+	}
+
+	destroy() {}
 }
