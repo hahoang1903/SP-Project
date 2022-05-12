@@ -16,7 +16,7 @@ export const allowRecord = async () => {
 
 		const mediaRecorder = new MediaRecorder(stream)
 
-		start = handleRecordBtnClick(mediaRecorder)
+		handleRecordBtnClick(mediaRecorder)
 
 		mediaRecorder.onstop = async () => {
 			// data chunks -> blob -> array buffer
