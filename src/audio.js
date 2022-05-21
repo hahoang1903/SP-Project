@@ -2,6 +2,7 @@ import $ from 'jquery'
 import * as tf from '@tensorflow/tfjs'
 
 import { MIC_ICON, MIC_SLASH_ICON } from './recordBtnIcons'
+import { extractLogMelSpectrogram } from './prepareData'
 
 export const allowRecord = async () => {
 	// init variables
@@ -12,6 +13,7 @@ export const allowRecord = async () => {
 	let chunks = []
 
 	try {
+		// run on localhost only
 		const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
 
 		const mediaRecorder = new MediaRecorder(stream)
@@ -47,11 +49,16 @@ export const allowRecord = async () => {
 				.getChannelData(0)
 				.map(value => Math.max(Math.min(Math.floor(int16Range[1] * value), int16Range[1]), int16Range[0]))
 
+			const audio = tf.tensor(PCM16iSamples)
+
 			// print to browser console
 			tf.tensor(PCM16iSamples).print()
 
+			// prepare data for model
+			const inputs = extractLogMelSpectrogram(audio)
+
 			// download for testing
-			downloadWav(PCM16iSamples)
+			// downloadWav(PCM16iSamples)
 		}
 
 		mediaRecorder.ondataavailable = e => {
