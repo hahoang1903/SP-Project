@@ -30,7 +30,7 @@ window.experience = new Experience({
 // }
 
 $(async () => {
-	const model = await tf.loadLayersModel('/assets/model.json')
-	console.log(model.summary())
+	// const model = await tf.loadLayersModel('/assets/model.json')
+	// console.log(model.summary())
 	allowRecord()
 })
