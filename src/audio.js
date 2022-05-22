@@ -58,9 +58,10 @@ export const allowRecord = async () => {
 			// prepare data for model
 			const inputs = extractLogMelSpectrogram(audio)
 
-			const pred = tf.argMax(model.predict(inputs.expandDims(0)))
-
-			pred.print()
+			// predict
+			const pred = tf.argMax(model.predict(inputs.expandDims(0)), 1)
+			const predLabel = pred.dataSync()[0] // integer
+			console.log(predLabel)
 		}
 
 		mediaRecorder.ondataavailable = e => {

@@ -11,10 +11,13 @@ export function extractLogMelSpectrogram(waveform, sr = 16000, newHeight = 64, n
 
     const melWeight = linearToMelWeightMatrix(numMelBins, numSpectrogramBins, sr, lowerEdgeHertz, upperEdgeHertz)
     const melSpectrograms = tf.dot(spectrograms, melWeight)
-    let logMelSpectrograms = tf.log(melSpectrograms.add(tf.scalar(1e-6)))
-    logMelSpectrograms = logMelSpectrograms.expandDims(2)
-    logMelSpectrograms = tf.image.resizeBilinear(logMelSpectrograms, [newWidth, newHeight])
-    return logMelSpectrograms
+    const logMelSpectrograms = tf.log(melSpectrograms.add(tf.scalar(1e-6)))
+    const logMelVariables = tf.moments(logMelSpectrograms, [1], true)
+    let logMelNormed = tf.div(tf.sub(logMelSpectrograms, logMelVariables.mean), tf.sqrt(tf.add(logMelVariables.variance, tf.scalar(1e-6))))
+
+    logMelNormed = logMelNormed.expandDims(2)
+    logMelNormed = tf.image.resizeBilinear(logMelNormed, [newWidth, newHeight])
+    return logMelNormed
 }
 
 function linearToMelWeightMatrix(numMelBins, numSpectrogramBins, sampleRate, lowerEdgeHertz, upperEdgeHertz) {
