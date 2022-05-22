@@ -1,6 +1,6 @@
 import * as tf from '@tensorflow/tfjs'
 
-export function extractLogMelSpectrogram(waveform, sr = 16000) {
+export function extractLogMelSpectrogram(waveform, sr = 16000, newHeight = 64, newWidth = 64) {
     const stfts = tf.signal.stft(waveform, 1024, 256, 1024)
     const spectrograms = tf.abs(stfts)
     const numSpectrogramBins = spectrograms.shape[1]
@@ -11,9 +11,10 @@ export function extractLogMelSpectrogram(waveform, sr = 16000) {
 
     const melWeight = linearToMelWeightMatrix(numMelBins, numSpectrogramBins, sr, lowerEdgeHertz, upperEdgeHertz)
     const melSpectrograms = tf.dot(spectrograms, melWeight)
-    const logMelSpectrograms = tf.log(melSpectrograms.add(tf.scalar(1e-6)))
-
-    return logMelSpectrograms.expandDims(2)
+    let logMelSpectrograms = tf.log(melSpectrograms.add(tf.scalar(1e-6)))
+    logMelSpectrograms = logMelSpectrograms.expandDims(2)
+    logMelSpectrograms = tf.image.resizeBilinear(logMelSpectrograms, [newWidth, newHeight])
+    return logMelSpectrograms
 }
 
 function linearToMelWeightMatrix(numMelBins, numSpectrogramBins, sampleRate, lowerEdgeHertz, upperEdgeHertz) {
