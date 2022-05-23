@@ -18,8 +18,11 @@ export default class ElgatoLight {
 		this.scene.add(this.model.mesh)
 
 		this.model.mesh.material = new THREE.MeshBasicMaterial({
-			// color: 0x5a5a5a
 			color: 0xffffff
 		})
+	}
+
+	changeLight(action) {
+		this.model.mesh.material = new THREE.MeshBasicMaterial({ color: action == 'on' ? 0xffffff : 0x5a5a5a })
 	}
 }

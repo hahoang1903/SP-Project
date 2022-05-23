@@ -1,98 +1,98 @@
 import Experience from './Experience.js'
-
 import * as THREE from 'three'
+import { getMusics, getRandomFile } from '../file.js'
 
-export default class GoogleLeds
-{
-    constructor()
-    {
-        this.experience = new Experience()
-        this.resources = this.experience.resources
-        this.debug = this.experience.debug
-        this.scene = this.experience.scene
-        this.time = this.experience.time
+export default class GoogleLeds {
+	constructor() {
+		this.experience = new Experience()
+		this.resources = this.experience.resources
+		this.debug = this.experience.debug
+		this.scene = this.experience.scene
+		this.time = this.experience.time
 
-        // Debug
-        if(this.debug)
-        {
-            this.debugFolder = this.debug.addFolder({
-                title: 'googleLeds',
-                expanded: false
-            })
-        }
+		// Debug
+		if (this.debug) {
+			this.debugFolder = this.debug.addFolder({
+				title: 'googleLeds',
+				expanded: false
+			})
+		}
 
-        this.setModel()
-    }
+		this.songs = getMusics()
+		this.currentSong = null
+		this.currentSongIndex = -1
 
-    setModel()
-    {
-        this.model = {}
+		this.setModel()
+	}
 
-        this.model.items = []
+	setModel() {
+		this.model = {}
 
-        const colors = ['#196aff', '#ff0000', '#ff5d00', '#7db81b']
+		this.model.items = []
 
-        // Texture
-        this.model.texture = this.resources.items.googleHomeLedMaskTexture
+		const colors = ['#196aff', '#ff0000', '#ff5d00', '#7db81b']
 
-        // Children
-        const children = [...this.resources.items.googleHomeLedsModel.scene.children]
-        children.sort((_a, _b) =>
-        {
-            if(_a.name < _b.name)
-                return -1
+		// Texture
+		this.model.texture = this.resources.items.googleHomeLedMaskTexture
 
-            if(_a.name > _b.name)
-                return 1
+		// Children
+		const children = [...this.resources.items.googleHomeLedsModel.scene.children]
+		children.sort((_a, _b) => {
+			if (_a.name < _b.name) return -1
 
-            return 0
-        })
-        
-        let i = 0
-        for(const _child of children)
-        {
-            const item = {}
+			if (_a.name > _b.name) return 1
 
-            item.index = i
+			return 0
+		})
 
-            item.color = colors[item.index]
+		let i = 0
+		for (const _child of children) {
+			const item = {}
 
-            item.material = new THREE.MeshBasicMaterial({
-                color: item.color,
-                transparent: true,
-                alphaMap: this.model.texture
-            })
+			item.index = i
 
-            item.mesh = _child
-            item.mesh.material = item.material
-            this.scene.add(item.mesh)
+			item.color = colors[item.index]
 
-            this.model.items.push(item)
+			item.material = new THREE.MeshBasicMaterial({
+				color: item.color,
+				transparent: true,
+				alphaMap: this.model.texture
+			})
 
-            // Debug
-            if(this.debug)
-            {
-                this.debugFolder
-                    .addInput(
-                        item,
-                        'color',
-                        { view: 'color' }
-                    )
-                    .on('change', () =>
-                    {
-                        item.material.color.set(item.color)
-                    })
-            }
+			item.mesh = _child
+			item.mesh.material = item.material
+			this.scene.add(item.mesh)
 
-            i++
-        }
-    }
+			this.model.items.push(item)
 
-    update()
-    {
-        for(const _item of this.model.items)
-        {
-            _item.material.opacity = Math.sin(this.time.elapsed * 0.002 - _item.index * 0.5) * 0.5 + 0.5
-        }
-    }
+			// Debug
+			if (this.debug) {
+				this.debugFolder.addInput(item, 'color', { view: 'color' }).on('change', () => {
+					item.material.color.set(item.color)
+				})
+			}
+
+			i++
+		}
+	}
+
+	update() {
+		for (const _item of this.model.items) {
+			_item.material.opacity = Math.sin(this.time.elapsed * 0.002 - _item.index * 0.5) * 0.5 + 0.5
+		}
+	}
+
+	playSong() {
+		this.currentSongIndex =
+			this.currentSongIndex == -1 || this.currentSongIndex >= this.songs.length - 1
+				? getRandomFile(this.songs)
+				: this.currentSongIndex + 1
+		this.currentSong = new Audio(this.songs[this.currentSongIndex])
+		this.currentSong.play()
+	}
+
+	stopSong() {
+		this.currentSong.pause()
+		this.currentSong = null
+	}
 }

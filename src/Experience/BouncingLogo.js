@@ -11,8 +11,10 @@ export default class BouncingLogo {
 		this.world = this.experience.world
 		this.time = this.experience.time
 
+		this.turningOn = false
+		this.turnedOn = false
+		this.turnOnTimePassed = 0
 		this.setModel()
-		this.setAnimation()
 	}
 
 	setModel() {
@@ -20,15 +22,29 @@ export default class BouncingLogo {
 
 		this.model.group = new THREE.Group()
 		this.model.group.position.x = 4.2
-		this.model.group.position.y = 2.717
-		this.model.group.position.z = 1.63
+		this.model.group.position.y = 2.71
+		this.model.group.position.z = 1.8
 		this.scene.add(this.model.group)
-
-		this.model.texture = this.resources.items.threejsJourneyLogoTexture
-		this.model.texture.encoding = THREE.sRGBEncoding
 
 		this.model.geometry = new THREE.PlaneGeometry(4, 1, 1, 1)
 		this.model.geometry.rotateY(-Math.PI * 0.5)
+
+		this.model.mesh = new THREE.Mesh(this.model.geometry, this.model.material)
+		this.model.mesh.scale.y = 0
+		this.model.mesh.scale.z = 0
+		this.model.group.add(this.model.mesh)
+	}
+
+	turnOn() {
+		if (this.turnedOn || this.turningOn) return
+		this.model.group.remove(this.model.mesh)
+
+		this.model.group.position.x = 4.2
+		this.model.group.position.y = 2.717
+		this.model.group.position.z = 1.63
+
+		this.model.texture = this.resources.items.threejsJourneyLogoTexture
+		this.model.texture.encoding = THREE.sRGBEncoding
 
 		this.model.material = new THREE.MeshBasicMaterial({
 			transparent: true,
@@ -40,45 +56,65 @@ export default class BouncingLogo {
 		this.model.mesh.scale.y = 0.359
 		this.model.mesh.scale.z = 0.424
 		this.model.group.add(this.model.mesh)
+
+		this.audio = new Audio('/music/Never Gonna Give You Up - Rick Astley.mp3')
+
+		this.model.element = document.createElement('video')
+		this.model.element.muted = true
+		this.model.element.loop = true
+		this.model.element.controls = true
+		this.model.element.playsInline = true
+		this.model.element.src = '/assets/videoRickRoll.mp4'
+
+		this.turningOn = true
+		this.turnOnTimePassed = 0
 	}
 
-	setAnimation() {
-		this.animations = {}
+	turnOff() {
+		if (!this.turnedOn) return
 
-		this.animations.z = 0
-		this.animations.y = 0
+		this.model.group.remove(this.model.mesh)
+		this.model.mesh.scale.y = 0
+		this.model.mesh.scale.z = 0
+		this.model.group.add(this.model.mesh)
 
-		this.animations.limits = {}
-		this.animations.limits.z = { min: -1.076, max: 1.454 }
-		this.animations.limits.y = { min: -1.055, max: 0.947 }
-
-		this.animations.speed = {}
-		this.animations.speed.z = 0.00061
-		this.animations.speed.y = 0.00037
+		this.audio.pause()
 	}
 
 	update() {
-		this.animations.z += this.animations.speed.z * this.time.delta
-		this.animations.y += this.animations.speed.y * this.time.delta
+		if (this.turningOn) {
+			this.turnOnTimePassed += this.time.delta
 
-		if (this.animations.z > this.animations.limits.z.max) {
-			this.animations.z = this.animations.limits.z.max
-			this.animations.speed.z *= -1
-		}
-		if (this.animations.z < this.animations.limits.z.min) {
-			this.animations.z = this.animations.limits.z.min
-			this.animations.speed.z *= -1
-		}
-		if (this.animations.y > this.animations.limits.y.max) {
-			this.animations.y = this.animations.limits.y.max
-			this.animations.speed.y *= -1
-		}
-		if (this.animations.y < this.animations.limits.y.min) {
-			this.animations.y = this.animations.limits.y.min
-			this.animations.speed.y *= -1
-		}
+			if (this.turnOnTimePassed >= 800) {
+				this.model.group.remove(this.model.mesh)
 
-		this.model.mesh.position.z = this.animations.z
-		this.model.mesh.position.y = this.animations.y
+				this.model.group.position.x = 4.2
+				this.model.group.position.y = 2.71
+				this.model.group.position.z = 1.8
+
+				// Texture
+				this.model.texture = new THREE.VideoTexture(this.model.element)
+				this.model.texture.encoding = THREE.sRGBEncoding
+
+				// Material
+				this.model.material = new THREE.MeshBasicMaterial({
+					map: this.model.texture
+				})
+
+				this.model.mesh = new THREE.Mesh(this.model.geometry, this.model.material)
+				this.model.mesh.scale.y = 2.35
+				this.model.mesh.scale.z = 1.062
+				this.model.group.add(this.model.mesh)
+
+				this.audio.play()
+
+				// có thể điều chỉnh để thời gian nhạc khớp với thời gian video
+				if (this.turnOnTimePassed >= 1600) {
+					this.model.element.play()
+					this.turningOn = false
+					this.turnedOn = true
+				}
+			}
+		}
 	}
 }

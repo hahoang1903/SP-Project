@@ -4,7 +4,7 @@ import Experience from './Experience.js'
 import vertexShader from './shaders/baked/vertex.glsl'
 import fragmentShader from './shaders/baked/fragment.glsl'
 
-export default class CoffeeSteam {
+export default class Baked {
 	constructor() {
 		this.experience = new Experience()
 		this.resources = this.experience.resources
@@ -44,6 +44,41 @@ export default class CoffeeSteam {
 			uniforms: {
 				uBakedDayTexture: { value: this.model.bakedDayTexture },
 				uBakedNightTexture: { value: this.model.bakedNightTexture },
+				uBakedNeutralTexture: { value: this.model.bakedNeutralTexture },
+				uLightMapTexture: { value: this.model.lightMapTexture },
+
+				uNightMix: { value: 1 },
+				uNeutralMix: { value: 0 },
+
+				uLightTvColor: { value: new THREE.Color(this.colors.tv) },
+				uLightTvStrength: { value: 1.47 },
+
+				uLightDeskColor: { value: new THREE.Color(this.colors.desk) },
+				uLightDeskStrength: { value: 1.9 },
+
+				uLightPcColor: { value: new THREE.Color(this.colors.pc) },
+				uLightPcStrength: { value: 1.4 }
+			},
+			vertexShader: vertexShader,
+			fragmentShader: fragmentShader
+		})
+
+		this.model.mesh.traverse(_child => {
+			if (_child instanceof THREE.Mesh) {
+				_child.material = this.model.material
+			}
+		})
+
+		this.scene.add(this.model.mesh)
+	}
+
+	changeBaked(action) {
+		this.scene.remove(this.model.mesh)
+
+		this.model.material = new THREE.ShaderMaterial({
+			uniforms: {
+				uBakedDayTexture: { value: this.model.bakedDayTexture },
+				uBakedNightTexture: { value: action == 'on' ? this.resources.items.bakedNightTexture : null },
 				uBakedNeutralTexture: { value: this.model.bakedNeutralTexture },
 				uLightMapTexture: { value: this.model.lightMapTexture },
 

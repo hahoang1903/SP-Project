@@ -35,9 +35,20 @@ export default class Screen {
 
 		// Material
 		this.model.material = new THREE.MeshBasicMaterial({
-			color: 0x030303
-			// map: this.model.texture
+			map: this.model.texture
 		})
+
+		// Mesh
+		this.model.mesh = this.mesh
+		this.model.mesh.material = this.model.material
+		this.scene.add(this.model.mesh)
+	}
+
+	changeScreen(action) {
+		this.scene.remove(this.model.mesh)
+
+		const option = action == 'on' ? { map: this.model.texture } : { color: 0x030303 }
+		this.model.material = new THREE.MeshBasicMaterial(option)
 
 		// Mesh
 		this.model.mesh = this.mesh
