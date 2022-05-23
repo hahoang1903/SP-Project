@@ -54,7 +54,14 @@ export const init = async () => {
 				.getChannelData(0)
 				.map(value => Math.max(Math.min(Math.floor(int16Range[1] * value), int16Range[1]), int16Range[0]))
 
-			const audio = tf.tensor(PCM16iSamples)
+			// downloadWav(PCM16iSamples)
+
+			let audio = tf.tensor(PCM16iSamples)
+			// scale audio to [-1.0, 1.0]
+			audio = tf.div(tf.cast(audio, 'float32'), tf.scalar(32768.0))
+			// pad audio to 2s
+			const audioLength = audio.shape[0]
+			audio = tf.pad(audio, [[0, Math.max(0, TARGET_SAMPLE_RATE * 2 - audioLength)]])
 
 			// prepare data for model
 			const inputs = extractLogMelSpectrogram(audio)
