@@ -79,6 +79,9 @@ export default class BouncingLogo {
 		this.model.group.add(this.model.mesh)
 
 		this.audio.pause()
+
+		this.turnedOn = false
+		this.turningOn = false
 	}
 
 	update() {
