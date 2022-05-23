@@ -87,6 +87,7 @@ export default class GoogleLeds {
 			this.currentSongIndex == -1 || this.currentSongIndex >= this.songs.length - 1
 				? getRandomFile(this.songs)
 				: this.currentSongIndex + 1
+		this.currentSong?.pause()
 		this.currentSong = new Audio(this.songs[this.currentSongIndex])
 		this.currentSong.play()
 	}
