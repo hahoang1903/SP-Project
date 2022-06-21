@@ -1,3 +1,6 @@
 [submodule "backend"]
 	path = backend
 	url = https://github.com/chnk58hoang/SpeechRecognittionBackend
+[submodule "model"]
+	path = model
+	url = https://github.com/thanhtvt/SmartRoomSimulator
