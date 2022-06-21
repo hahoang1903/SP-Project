@@ -24,7 +24,7 @@ Then relaunch Chrome and you are good to go.
 
 ## Demo
 
-Link demo: https://www.youtube.com/watch?v=3qWIo9ydv8o
+Link demo: https://www.youtube.com/watch?v=dVbQXKV1t90
 
 #### Main GUI
 
@@ -71,7 +71,7 @@ Apart from recording and cleaning data (which everyone have to do), the contribu
 2. **Trần Khánh Hùng - 19021289**:
 
    - Contribute problem ideas.
-   - Build baseline in kaggle ([(https://www.kaggle.com/code/hngtrnkhnh/notebook35b94de2ec])
+   - Build [baseline](https://github.com/thanhtvt/SmartRoomSimulator/blob/main/notebooks/baseline.ipynb) in kaggle.
    - Contribute data organization, clean and transform data
    - Documented model repository, link is [here](https://github.com/thanhtvt/SmartRoomSimulator).
 
@@ -82,3 +82,8 @@ Apart from recording and cleaning data (which everyone have to do), the contribu
      - Convert audio into Tensor array and send to backend
    - Connect frontend with backend
    - Create demo video.
+4. **Trần Minh Hoàng - 19021285**:
+
+   - Record and clean audio data
+   - Design backend API with Django-Rest-Framework
+
