@@ -7,10 +7,20 @@ Frontend for Smart Room Simulator. Smart Room Simulator simulates a real smart r
 You must have **NodeJS** installed on your computer. Then you can run the following commands.
 
 - Install all needed packages (only for the first time)
-  `npm i`
+
+```
+npm i
+```
 
 - Run the app at http://localhost:8080
-  `npm run dev`
+
+```
+npm run dev
+```
+
+:warning: If browser used to run the app is Chrome, then the flag `#unsafely-treat-insecure-origin-as-secure` should be enabled via `chrome://flags/#unsafely-treat-insecure-origin-as-secure`. Then you should add your IP address as below.  
+![add ip](/demo/addIP.png)  
+Then relaunch Chrome and you are good to go.
 
 ## Demo
 
