@@ -1,6 +1,4 @@
-import { getMusics, getRandomFile } from './file'
-
-export function doWorkOnPrediction(predictLabel, currentPlayingMusic) {
+export function doWorkOnPrediction(predictLabel) {
 	const { topChair, elgatoLight, baked, macScreen, pcScreen, bouncingLogo, googleLeds } =
 		window.experience.world
 
@@ -10,18 +8,19 @@ export function doWorkOnPrediction(predictLabel, currentPlayingMusic) {
 		case 'xoay ghế phải':
 			return topChair.rotateRight()
 		case 'bật đèn':
-		case 'sáng quá':
+		case 'tối quá':
 		case 'bật đèn lên':
 			baked.changeBaked('on')
 			elgatoLight.changeLight('on')
 			return
 		case 'tắt đèn':
-		case 'tối quá':
+		case 'sáng quá':
 		case 'tắt đèn đi':
 			baked.changeBaked('off')
 			elgatoLight.changeLight('off')
 			return
 		case 'chuyển nhạc':
+			return googleLeds.playSong(true)
 		case 'bật nhạc':
 		case 'bật nhạc lên':
 			return googleLeds.playSong()

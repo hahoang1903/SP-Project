@@ -82,17 +82,23 @@ export default class GoogleLeds {
 		}
 	}
 
-	playSong() {
+	playSong(switchSong = false) {
+		if (switchSong && !this.currentSong) return
+
+		if (!switchSong && this.currentSong) return
+
+		this.stopSong()
 		this.currentSongIndex =
 			this.currentSongIndex == -1 || this.currentSongIndex >= this.songs.length - 1
 				? getRandomFile(this.songs)
 				: this.currentSongIndex + 1
 		this.currentSong = new Audio(this.songs[this.currentSongIndex])
-		this.currentSong.volume = 0.08
+		this.currentSong.volume = 0.15
 		this.currentSong.play()
 	}
 
 	stopSong() {
+		if (!this.currentSong) return
 		this.currentSong.pause()
 		this.currentSong = null
 	}
