@@ -69,4 +69,10 @@ Apart from recording and cleaning data (which everyone have to do), the contribu
         + Converted baseline notebook into a clean, easy-to-use repository.
 
     - Documented model repository, link is [here](https://github.com/thanhtvt/SmartRoomSimulator).
+ 2. **Trần Khánh Hùng - 19021289**: 
+
+    - Contribute problem ideas.
+    - Build baseline in kaggle ([(https://www.kaggle.com/code/hngtrnkhnh/notebook35b94de2ec])
+    - Contribute data organization, clean and transform data
+    - Documented model repository, link is [here](https://github.com/thanhtvt/SmartRoomSimulator).
     
