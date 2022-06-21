@@ -82,3 +82,8 @@ Apart from recording and cleaning data (which everyone have to do), the contribu
      - Convert audio into Tensor array and send to backend
    - Connect frontend with backend
    - Create demo video.
+4. **Trần Minh Hoàng - 19021285**:
+
+   - Record and clean audio data
+   - Design backend API with Django-Rest-Framework
+
