@@ -48,3 +48,31 @@ Turn PC/TV Screen on/off
 Rotate chair left or right
 
 ![Rotate chair](/demo/chair.jpg)
+
+
+## Demo
+
+Link demo: https://www.youtube.com/watch?v=3qWIo9ydv8o
+
+## Contribution  
+
+Apart from recording and cleaning data (which everyone have to do), the contribution from each of us is below:
+
+1. **Trần Văn Trọng Thành - 19021367**: 
+
+    - Designed flow of application (from frontend to backend and back).
+
+    - Continued developing base on the [baseline](https://github.com/thanhtvt/SmartRoomSimulator/blob/main/notebooks/baseline.ipynb), including:
+        + Adopted byte pair encoding as subwording algorithm.
+        + Applied different augmentation techniques to increase number of samples.
+        + Tuned baseline model configuration to find best hyper-parameters (so far).
+        + Converted baseline notebook into a clean, easy-to-use repository.
+
+    - Documented model repository, link is [here](https://github.com/thanhtvt/SmartRoomSimulator).
+ 2. **Trần Khánh Hùng - 19021289**: 
+
+    - Contribute problem ideas.
+    - Build baseline in kaggle ([(https://www.kaggle.com/code/hngtrnkhnh/notebook35b94de2ec])
+    - Contribute data organization, clean and transform data
+    - Documented model repository, link is [here](https://github.com/thanhtvt/SmartRoomSimulator).
+    
