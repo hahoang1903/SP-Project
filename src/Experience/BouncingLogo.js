@@ -58,6 +58,7 @@ export default class BouncingLogo {
 		this.model.group.add(this.model.mesh)
 
 		this.audio = new Audio('/music/Never Gonna Give You Up - Rick Astley.mp3')
+		this.audio.volume = 0.08
 
 		this.model.element = document.createElement('video')
 		this.model.element.muted = true

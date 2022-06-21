@@ -5,39 +5,39 @@ export function doWorkOnPrediction(predictLabel, currentPlayingMusic) {
 		window.experience.world
 
 	switch (predictLabel) {
-		case 0:
+		case 'xoay ghế trái':
 			return topChair.rotateLeft()
-		case 1:
+		case 'xoay ghế phải':
 			return topChair.rotateRight()
-		case 2:
-		case 3:
-		case 7:
+		case 'bật đèn':
+		case 'sáng quá':
+		case 'bật đèn lên':
 			baked.changeBaked('on')
 			elgatoLight.changeLight('on')
 			return
-		case 4:
-		case 5:
-		case 6:
+		case 'tắt đèn':
+		case 'tối quá':
+		case 'tắt đèn đi':
 			baked.changeBaked('off')
 			elgatoLight.changeLight('off')
 			return
-		case 8:
-		case 9:
-		case 11:
+		case 'chuyển nhạc':
+		case 'bật nhạc':
+		case 'bật nhạc lên':
 			return googleLeds.playSong()
-		case 10:
+		case 'dừng nhạc':
 			return googleLeds.stopSong()
-		case 12:
+		case 'bật màn hình':
 			return pcScreen.changeScreen('on')
-		case 13:
+		case 'tắt màn hình':
 			return pcScreen.changeScreen('off')
-		case 14:
+		case 'bật laptop':
 			return macScreen.changeScreen('on')
-		case 15:
+		case 'tắt laptop':
 			return macScreen.changeScreen('off')
-		case 16:
+		case 'bật tv':
 			return bouncingLogo.turnOn()
-		case 17:
+		case 'tắt tv':
 			return bouncingLogo.turnOff()
 		default:
 			return

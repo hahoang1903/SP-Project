@@ -88,6 +88,7 @@ export default class GoogleLeds {
 				? getRandomFile(this.songs)
 				: this.currentSongIndex + 1
 		this.currentSong = new Audio(this.songs[this.currentSongIndex])
+		this.currentSong.volume = 0.08
 		this.currentSong.play()
 	}
 

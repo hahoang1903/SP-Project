@@ -2,8 +2,9 @@ import $ from 'jquery'
 import * as tf from '@tensorflow/tfjs'
 
 import { MIC_ICON, MIC_SLASH_ICON } from './recordBtnIcons'
-import { extractLogMelSpectrogram } from './prepareData'
 import { doWorkOnPrediction } from './actions'
+// import { downloadWav } from './audioDownload'
+import axios from 'axios'
 
 export const init = async () => {
 	// init variables
@@ -16,10 +17,6 @@ export const init = async () => {
 	try {
 		// run on localhost only
 		const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-
-		// load model
-		const model = await tf.loadLayersModel('/model/model.json')
-		model.summary()
 
 		const mediaRecorder = new MediaRecorder(stream)
 
@@ -54,17 +51,17 @@ export const init = async () => {
 				.getChannelData(0)
 				.map(value => Math.max(Math.min(Math.floor(int16Range[1] * value), int16Range[1]), int16Range[0]))
 
-			const audio = tf.tensor(PCM16iSamples)
+			// downloadWav(PCM16iSamples)
 
-			// prepare data for model
-			const inputs = extractLogMelSpectrogram(audio)
+			let audio = tf.tensor(PCM16iSamples)
+			audio = tf.div(tf.cast(audio, 'float32'), tf.scalar(32768.0))
+			const data = audio.dataSync()
 
-			// predict
-			const pred = tf.argMax(model.predict(inputs.expandDims(0)), 1)
-			const predLabel = pred.dataSync()[0] // integer
-			console.log(`Predicted: ${predLabel}`)
+			const res = await axios.post('http://localhost:8000/speech/predict/', {
+				audio: Array.from(data)
+			})
 
-			doWorkOnPrediction(predLabel)
+			doWorkOnPrediction(res.data)
 		}
 
 		mediaRecorder.ondataavailable = e => {
