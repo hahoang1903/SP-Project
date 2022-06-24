@@ -1,6 +1,20 @@
 # Smart Room Simulator
 
-Frontend for Smart Room Simulator. Smart Room Simulator simulates a real smart room which can be controlled using voices. We first record voices from frontend. The recorded audio is then processed and sent to backend ([github here](https://github.com/chnk58hoang/SpeechRecognittionBackend)). Backend will use the trained model to predict the command and send it back to frontend. The room will change according to the predicted command. Graphical interface is rendered using **ThreeJS**, a JavaScript 3D Library.
+# Table of Content
+
+- [Abstract](#abstract)
+- [Requirements](#requirements)
+- [Demo](#demo)
+- [Contribution](#contribution)
+
+# Abstract
+
+Frontend for Smart Room Simulator. Smart Room Simulator simulates a real smart room which can be controlled using voices. We first record voices from frontend. The recorded audio is then processed and sent to backend. Backend will use the trained model to predict the command and send it back to frontend. The room will change according to the predicted command. Graphical interface is rendered using **ThreeJS**, a JavaScript 3D Library.
+
+You can take a look at our other repos for more details:
+
+- Backend: https://github.com/chnk58hoang/SpeechRecognittionBackend/
+- Model: https://github.com/thanhtvt/SmartRoomSimulator/
 
 ## Requirements
 
@@ -18,6 +32,7 @@ npm i
 npm run dev
 ```
 
+:warning: You have to run both backend and frontend. Backend requirements and running tutorial can be found in [backend repo](https://github.com/chnk58hoang/SpeechRecognittionBackend/)  
 :warning: If browser used to run the app is Chrome, then the flag `#unsafely-treat-insecure-origin-as-secure` should be enabled via `chrome://flags/#unsafely-treat-insecure-origin-as-secure`. Then you should add your IP address as below.  
 ![add ip](/demo/addIP.png)  
 Then relaunch Chrome and you are good to go.
@@ -82,8 +97,8 @@ Apart from recording and cleaning data (which everyone have to do), the contribu
      - Convert audio into Tensor array and send to backend
    - Connect frontend with backend
    - Create demo video.
+
 4. **Trần Minh Hoàng - 19021285**:
 
    - Record and clean audio data
    - Design backend API with Django-Rest-Framework
-
